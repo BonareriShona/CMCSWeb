@@ -1,0 +1,85 @@
+﻿@model IEnumerable<CMCSWeb.Models.Claim>
+@{
+    ViewData["Title"] = "Reports & Invoices";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary mb-4">Reports & Invoices</h2>
+
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5>Generate Monthly Report</h5>
+        </div>
+        <div class="card-body">
+            <form asp-action="GenerateMonthlyReport" method="post" class="row g-3">
+                <div class="col-md-3">
+                    <label for="month" class="form-label">Month</label>
+                    <select name="month" class="form-select" required>
+                        <option value="">Select Month</option>
+                        @for (int i = 1; i <= 12; i++)
+                        {
+                            <option value="@i">@System.Globalization.CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(i)</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label for="year" class="form-label">Year</label>
+                    <select name="year" class="form-select" required>
+                        <option value="">Select Year</option>
+                        @for (int year = DateTime.Now.Year; year >= DateTime.Now.Year - 5; year--)
+                        {
+                            <option value="@year">@year</option>
+                        }
+                    </select>
+                </div>
+                <div class="col-md-6 d-flex align-items-end">
+                    <button type="submit" class="btn btn-success">Generate Report</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <h5>Recently Approved Claims</h5>
+        </div>
+        <div class="card-body">
+            @if (!Model.Any())
+            {
+                <div class="alert alert-info">No approved claims found.</div>
+            }
+            else
+            {
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Claim ID</th>
+                            <th>Lecturer</th>
+                            <th>Hours</th>
+                            <th>Rate</th>
+                            <th>Total</th>
+                            <th>Approved Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var claim in Model)
+                        {
+                            <tr>
+                                <td>@claim.Id</td>
+                                <td>@claim.User?.FullName</td>
+                                <td>@claim.HoursWorked</td>
+                                <td>@claim.HourlyRate.ToString("C")</td>
+                                <td>@claim.TotalAmount.ToString("C")</td>
+                                <td>@claim.ApprovedAt?.ToString("MMM dd, yyyy")</td>
+                                <td>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Generate Invoice</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+        </div>
+    </div>
+</div>

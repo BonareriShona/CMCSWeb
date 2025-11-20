@@ -1,0 +1,60 @@
+﻿@model CMCSWeb.Models.Claim
+
+@{
+    ViewData["Title"] = "Claim Details";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">Claim Details</h2>
+
+    <div class="card shadow-sm p-4">
+        <dl class="row">
+            <dt class="col-sm-3">Lecturer</dt>
+            <dd class="col-sm-9">@Model.User?.FullName</dd> <!-- FIXED: Changed LecturerName to User.FullName -->
+
+            <dt class="col-sm-3">Hours Worked</dt>
+            <dd class="col-sm-9">@Model.HoursWorked</dd>
+
+            <dt class="col-sm-3">Hourly Rate (R)</dt>
+            <dd class="col-sm-9">@Model.HourlyRate.ToString("C")</dd> <!-- Added currency formatting -->
+
+            <dt class="col-sm-3">Notes</dt>
+            <dd class="col-sm-9">@Model.Notes</dd>
+
+            <dt class="col-sm-3">Total</dt>
+            <dd class="col-sm-9">@Model.TotalAmount.ToString("C")</dd> <!-- FIXED: Use TotalAmount property -->
+
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@Model.Status</dd>
+
+            <dt class="col-sm-3">Submitted</dt>
+            <dd class="col-sm-9">@Model.SubmittedAt.ToShortDateString()</dd>
+
+            <dt class="col-sm-3">Document</dt>
+            <dd class="col-sm-9">
+                @if (!string.IsNullOrEmpty(Model.DocumentPath))
+                {
+                    <a href="@Url.Content("~/uploads/" + Model.DocumentPath)" target="_blank">View Document</a>
+                }
+                else
+                {
+                    <span>No file uploaded</span>
+                }
+            </dd>
+        </dl>
+
+        <div class="mt-3">
+            <form asp-action="Approve" method="post" style="display:inline">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-success">Approve</button>
+            </form>
+
+            <form asp-action="Reject" method="post" style="display:inline">
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="btn btn-danger">Reject</button>
+            </form>
+
+            <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        </div>
+    </div>
+</div>

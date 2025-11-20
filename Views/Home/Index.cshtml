@@ -1,0 +1,133 @@
+﻿@{
+    ViewData["Title"] = "Home";
+}
+
+<div class="container text-center mt-5">
+    <h1 class="display-5 fw-semibold text-primary mb-3">
+        Contract Monthly Claim System (CMCS)
+    </h1>
+
+    <p class="lead text-muted mb-5">
+        Streamlining the claim submission and approval process for educational institutions.
+    </p>
+
+    @if (!User.Identity.IsAuthenticated)
+    {
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-4">Sign In to Your Account</h4>
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg w-100 mb-3">
+                            <i class="bi bi-box-arrow-in-right"></i> Login to System
+                        </a>
+                        <p class="text-muted small">
+                            Don't have an account? Contact HR for account creation.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info mb-5">
+            <h5>Welcome back, @User.Identity.Name!</h5>
+            <p>
+                You are logged in as:
+                <span class="badge
+                        @(User.IsInRole("HR") ? "bg-danger" :
+                                            User.IsInRole("Coordinator") ? "bg-warning" :
+                                            User.IsInRole("Manager") ? "bg-info" : "bg-secondary")">
+                    @(User.IsInRole("HR") ? "HR" :
+                                    User.IsInRole("Coordinator") ? "Coordinator" :
+                                    User.IsInRole("Manager") ? "Manager" : "Lecturer")
+            </span>
+        </p>
+        <a asp-controller="Home" asp-action="Dashboard" class="btn btn-outline-primary btn-sm">Go to Dashboard</a>
+    </div>
+        }
+
+    <div class="row justify-content-center">
+        <!-- Lecturer Features -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-primary">For Lecturers</h5>
+                    <p class="card-text">Submit monthly claims, track status, and upload supporting documents.</p>
+                    @if (User.IsInRole("Lecturer") || !User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Lecturer" asp-action="Submit" class="btn btn-primary w-100 mb-2">Submit Claim</a>
+                        <a asp-controller="Lecturer" asp-action="Track" class="btn btn-outline-primary w-100">Track Claims</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Coordinator Features -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-success">For Coordinators</h5>
+                    <p class="card-text">Verify submitted claims and ensure they meet requirements before manager approval.</p>
+                    @if (User.IsInRole("Coordinator") || !User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Coordinator" asp-action="Manage" class="btn btn-success w-100">Verify Claims</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- Manager Features -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-info">For Managers</h5>
+                    <p class="card-text">Approve verified claims and manage the final approval process.</p>
+                    @if (User.IsInRole("Manager") || !User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Manager" asp-action="Manage" class="btn btn-info w-100">Approve Claims</a>
+                    }
+                </div>
+            </div>
+        </div>
+
+        <!-- HR Features -->
+        <div class="col-md-3 mb-3">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title text-warning">For HR</h5>
+                    <p class="card-text">Manage user accounts, generate reports, and oversee system operations.</p>
+                    @if (User.IsInRole("HR") || !User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="HR" asp-action="Dashboard" class="btn btn-warning w-100">HR Dashboard</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">System Features</h5>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h6><i class="bi bi-shield-check text-success"></i> Secure Authentication</h6>
+                            <p class="small">Role-based access control with secure login</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6><i class="bi bi-graph-up text-primary"></i> Auto-Calculation</h6>
+                            <p class="small">Automatic calculation of claim amounts</p>
+                        </div>
+                        <div class="col-md-4">
+                            <h6><i class="bi bi-file-earmark-text text-info"></i> Document Management</h6>
+                            <p class="small">Upload and manage supporting documents</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

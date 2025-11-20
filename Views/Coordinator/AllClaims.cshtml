@@ -1,0 +1,69 @@
+﻿@model IEnumerable<CMCSWeb.Models.Claim>
+
+@{
+    ViewData["Title"] = "All Claims";
+}
+
+<div class="container mt-5">
+    <h2 class="text-primary mb-4">All Submitted Claims</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No claims have been submitted yet.</div>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered shadow-sm">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Lecturer</th>
+                    <th>Total (R)</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Document</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>@claim.Id</td>
+                        <td>@claim.User?.FullName</td> <!-- FIXED: Changed LecturerName to User.FullName -->
+                        <td>@claim.TotalAmount.ToString("C")</td> <!-- FIXED: Use TotalAmount property -->
+                        <td>@claim.SubmittedAt.ToShortDateString()</td>
+                        <td>
+                            @switch (claim.Status)
+                            {
+                                case CMCSWeb.Models.ClaimStatus.Pending:
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                    break;
+                                case CMCSWeb.Models.ClaimStatus.Verified:
+                                    <span class="badge bg-info text-dark">Verified</span>
+                                    break;
+                                case CMCSWeb.Models.ClaimStatus.Approved:
+                                    <span class="badge bg-success">Approved</span>
+                                    break;
+                                case CMCSWeb.Models.ClaimStatus.Rejected:
+                                    <span class="badge bg-danger">Rejected</span>
+                                    break;
+                            }
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(claim.DocumentPath))
+                            {
+                                <a href="@Url.Content("~/uploads/" + claim.DocumentPath)" target="_blank">View</a>
+                            }
+                            else
+                            {
+                                <span>No file</span>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+    <a asp-action="Index" class="btn btn-outline-secondary mt-3">Back to Pending Claims</a>
+</div>

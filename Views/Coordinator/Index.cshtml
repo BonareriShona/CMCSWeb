@@ -1,0 +1,71 @@
+﻿@model IEnumerable<CMCSWeb.Models.Claim>
+
+@{
+    ViewData["Title"] = "Pending Claims";
+}
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-primary">Pending Claims for Verification</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No pending claims found.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Lecturer</th>
+                    <th>Department</th>
+                    <th>Hours</th>
+                    <th>Rate (R)</th>
+                    <th>Total</th>
+                    <th>Date Submitted</th>
+                    <th>Status</th>
+                    <th>Document</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var claim in Model)
+                {
+                    <tr>
+                        <td>@claim.User?.FullName</td> <!-- FIXED: Changed LecturerName to User.FullName -->
+                        <td>@claim.User?.Department</td> <!-- Added department info -->
+                        <td>@claim.HoursWorked</td>
+                        <td>@claim.HourlyRate.ToString("C")</td> <!-- Added currency formatting -->
+                        <td>@claim.TotalAmount.ToString("C")</td> <!-- FIXED: Use TotalAmount property -->
+                        <td>@claim.SubmittedAt.ToShortDateString()</td>
+                        <td>
+                            <span class="badge bg-warning">
+                                @claim.Status
+                            </span>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(claim.DocumentPath))
+                            {
+                                <a href="@Url.Content("~/uploads/" + claim.DocumentPath)" target="_blank" class="btn btn-sm btn-outline-primary">View</a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No file</span>
+                            }
+                        </td>
+                        <td>
+                            <form asp-action="Verify" method="post" style="display:inline"> <!-- FIXED: Changed Approve to Verify -->
+                                <input type="hidden" name="id" value="@claim.Id" />
+                                <button class="btn btn-success btn-sm">Verify</button>
+                            </form>
+
+                            <form asp-action="Reject" method="post" style="display:inline">
+                                <input type="hidden" name="id" value="@claim.Id" />
+                                <button class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to reject this claim?')">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

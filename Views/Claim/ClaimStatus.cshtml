@@ -1,0 +1,68 @@
+﻿@model List<CMCSWeb.Models.Claim>
+@{
+    ViewData["Title"] = "Claim Status";
+}
+
+<h2>Claim Status</h2>
+
+@if (!Model.Any())
+{
+    <p>No claims submitted yet.</p>
+}
+else
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Lecturer</th>
+                <th>Hours Worked</th>
+                <th>Hourly Rate</th>
+                <th>Total Amount</th>
+                <th>Notes</th>
+                <th>Document</th>
+                <th>Status</th>
+                <th>Submitted At</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.User?.FullName</td> <!-- Fixed: Use User.FullName instead of LecturerName -->
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.HourlyRate.ToString("C")</td>
+                    <td>@claim.TotalAmount.ToString("C")</td> <!-- Added Total Amount -->
+                    <td>@claim.Notes</td>
+                    <td>
+                        @if (!string.IsNullOrEmpty(claim.DocumentPath))
+                        {
+                            <a href="@Url.Content("~/uploads/" + claim.DocumentPath)" target="_blank">View</a>
+                        }
+                        else
+                        {
+                            <span>-</span>
+                        }
+                    </td>
+                    <td>
+                        @switch (claim.Status)
+                        {
+                            case CMCSWeb.Models.ClaimStatus.Pending:
+                                <span style="color:orange;font-weight:bold;">Pending</span>
+                                break;
+                            case CMCSWeb.Models.ClaimStatus.Verified:
+                                <span style="color:blue;font-weight:bold;">Verified</span>
+                                break;
+                            case CMCSWeb.Models.ClaimStatus.Approved:
+                                <span style="color:green;font-weight:bold;">Approved</span>
+                                break;
+                            case CMCSWeb.Models.ClaimStatus.Rejected:
+                                <span style="color:red;font-weight:bold;">Rejected</span>
+                                break;
+                        }
+                    </td>
+                    <td>@claim.SubmittedAt.ToString("g")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

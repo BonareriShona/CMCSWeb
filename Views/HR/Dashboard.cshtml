@@ -1,0 +1,54 @@
+﻿@{
+    ViewData["Title"] = "HR Dashboard";
+}
+
+<div class="container mt-4">
+    <h2 class="text-primary mb-4">HR Dashboard</h2>
+
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">User Management</h5>
+                    <p class="card-text">Create and manage user accounts for lecturers, coordinators, and managers.</p>
+                    <a href="@Url.Action("Users")" class="btn btn-light">Manage Users</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Reports</h5>
+                    <p class="card-text">Generate monthly reports and invoices for approved claims.</p>
+                    <a href="@Url.Action("Reports")" class="btn btn-light">View Reports</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">System Overview</h5>
+                    <p class="card-text">View system statistics and performance metrics.</p>
+                    <a href="@Url.Action("Users")" class="btn btn-light">View Stats</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5>Quick Actions</h5>
+                </div>
+                <div class="card-body">
+                    <a href="@Url.Action("CreateUser")" class="btn btn-primary me-2">Add New User</a>
+                    <a href="@Url.Action("Users")" class="btn btn-secondary me-2">View All Users</a>
+                    <a href="@Url.Action("Reports")" class="btn btn-success">Generate Reports</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
