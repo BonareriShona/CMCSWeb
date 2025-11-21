@@ -1,133 +1,223 @@
 ﻿@{
-    ViewData["Title"] = "Home";
+    ViewData["Title"] = "Welcome to CMCS";
+    var systemName = ViewData["SystemName"] as string ?? "Contract Monthly Claim System";
 }
 
-<div class="container text-center mt-5">
-    <h1 class="display-5 fw-semibold text-primary mb-3">
-        Contract Monthly Claim System (CMCS)
-    </h1>
+<div class="container-fluid">
+    <!-- Hero Section -->
+    <div class="row align-items-center min-vh-75 bg-primary bg-gradient text-white py-5">
+        <div class="col-lg-8 mx-auto text-center">
+            <h1 class="display-4 fw-bold mb-4">
+                <i class="bi bi-cash-coin me-3"></i>@systemName
+            </h1>
+            <p class="lead mb-4">
+                Streamlining educational claim management for lecturers, coordinators, and administrators.
+            </p>
 
-    <p class="lead text-muted mb-5">
-        Streamlining the claim submission and approval process for educational institutions.
-    </p>
+            @if (User.Identity?.IsAuthenticated == true)
+            {
+                <div class="mt-5">
+                    <h4 class="mb-3">Welcome back, @User.Identity.Name!</h4>
+                    <a href="@Url.Action("Dashboard", "Home")" class="btn btn-light btn-lg px-4 me-3">
+                        <i class="bi bi-speedometer2"></i> Go to Dashboard
+                    </a>
+                </div>
+            }
+            else
+            {
+                <div class="mt-5">
+                    <a href="@Url.Action("Login", "Account")" class="btn btn-light btn-lg px-4 me-3">
+                        <i class="bi bi-box-arrow-in-right"></i> Sign In
+                    </a>
+                    <a href="@Url.Action("About", "Home")" class="btn btn-outline-light btn-lg px-4">
+                        <i class="bi bi-info-circle"></i> Learn More
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
 
-    @if (!User.Identity.IsAuthenticated)
-    {
-        <div class="row justify-content-center mb-5">
-            <div class="col-md-6">
-                <div class="card">
-                    <div class="card-body p-4">
-                        <h4 class="card-title mb-4">Sign In to Your Account</h4>
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg w-100 mb-3">
-                            <i class="bi bi-box-arrow-in-right"></i> Login to System
-                        </a>
-                        <p class="text-muted small">
-                            Don't have an account? Contact HR for account creation.
-                        </p>
+    <!-- Features Section -->
+    <div class="row py-5">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="text-center mb-5">System Features</h2>
+
+            <div class="row g-4">
+                <!-- Lecturer Feature -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-person fs-2"></i>
+                            </div>
+                            <h4 class="card-title">For Lecturers</h4>
+                            <p class="card-text">
+                                Submit monthly claims with auto-calculation, track approval status,
+                                and upload supporting documents seamlessly.
+                            </p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-check text-success"></i> Auto-calculation of payments</li>
+                                <li><i class="bi bi-check text-success"></i> Real-time status tracking</li>
+                                <li><i class="bi bi-check text-success"></i> Document upload support</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Coordinator Feature -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-info bg-gradient text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-eye fs-2"></i>
+                            </div>
+                            <h4 class="card-title">For Coordinators</h4>
+                            <p class="card-text">
+                                Verify and review submitted claims, ensure compliance with policies,
+                                and streamline the approval workflow.
+                            </p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-check text-success"></i> Claim verification</li>
+                                <li><i class="bi bi-check text-success"></i> Policy compliance checks</li>
+                                <li><i class="bi bi-check text-success"></i> Workflow management</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Manager Feature -->
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon bg-success bg-gradient text-white rounded-circle mx-auto mb-3 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                                <i class="bi bi-award fs-2"></i>
+                            </div>
+                            <h4 class="card-title">For Managers</h4>
+                            <p class="card-text">
+                                Final approval of verified claims, monitor system activity,
+                                and ensure timely payment processing.
+                            </p>
+                            <ul class="list-unstyled text-start">
+                                <li><i class="bi bi-check text-success"></i> Final claim approval</li>
+                                <li><i class="bi bi-check text-success"></i> System monitoring</li>
+                                <li><i class="bi bi-check text-success"></i> Reporting capabilities</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    }
-    else
-    {
-        <div class="alert alert-info mb-5">
-            <h5>Welcome back, @User.Identity.Name!</h5>
-            <p>
-                You are logged in as:
-                <span class="badge
-                        @(User.IsInRole("HR") ? "bg-danger" :
-                                            User.IsInRole("Coordinator") ? "bg-warning" :
-                                            User.IsInRole("Manager") ? "bg-info" : "bg-secondary")">
-                    @(User.IsInRole("HR") ? "HR" :
-                                    User.IsInRole("Coordinator") ? "Coordinator" :
-                                    User.IsInRole("Manager") ? "Manager" : "Lecturer")
-            </span>
-        </p>
-        <a asp-controller="Home" asp-action="Dashboard" class="btn btn-outline-primary btn-sm">Go to Dashboard</a>
-    </div>
-        }
-
-    <div class="row justify-content-center">
-        <!-- Lecturer Features -->
-        <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title text-primary">For Lecturers</h5>
-                    <p class="card-text">Submit monthly claims, track status, and upload supporting documents.</p>
-                    @if (User.IsInRole("Lecturer") || !User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Lecturer" asp-action="Submit" class="btn btn-primary w-100 mb-2">Submit Claim</a>
-                        <a asp-controller="Lecturer" asp-action="Track" class="btn btn-outline-primary w-100">Track Claims</a>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <!-- Coordinator Features -->
-        <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title text-success">For Coordinators</h5>
-                    <p class="card-text">Verify submitted claims and ensure they meet requirements before manager approval.</p>
-                    @if (User.IsInRole("Coordinator") || !User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Coordinator" asp-action="Manage" class="btn btn-success w-100">Verify Claims</a>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <!-- Manager Features -->
-        <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title text-info">For Managers</h5>
-                    <p class="card-text">Approve verified claims and manage the final approval process.</p>
-                    @if (User.IsInRole("Manager") || !User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="Manager" asp-action="Manage" class="btn btn-info w-100">Approve Claims</a>
-                    }
-                </div>
-            </div>
-        </div>
-
-        <!-- HR Features -->
-        <div class="col-md-3 mb-3">
-            <div class="card h-100">
-                <div class="card-body">
-                    <h5 class="card-title text-warning">For HR</h5>
-                    <p class="card-text">Manage user accounts, generate reports, and oversee system operations.</p>
-                    @if (User.IsInRole("HR") || !User.Identity.IsAuthenticated)
-                    {
-                        <a asp-controller="HR" asp-action="Dashboard" class="btn btn-warning w-100">HR Dashboard</a>
-                    }
-                </div>
-            </div>
-        </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">System Features</h5>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <h6><i class="bi bi-shield-check text-success"></i> Secure Authentication</h6>
-                            <p class="small">Role-based access control with secure login</p>
+    <!-- HR Features Section -->
+    <div class="row py-5 bg-light">
+        <div class="col-lg-8 mx-auto text-center">
+            <div class="card border-0 shadow">
+                <div class="card-body p-5">
+                    <div class="feature-icon bg-warning bg-gradient text-white rounded-circle mx-auto mb-4 d-flex align-items-center justify-content-center" style="width: 80px; height: 80px;">
+                        <i class="bi bi-people fs-2"></i>
+                    </div>
+                    <h3 class="card-title mb-3">HR Administration</h3>
+                    <p class="card-text lead mb-4">
+                        Comprehensive user management, report generation, and system oversight capabilities.
+                    </p>
+                    <div class="row g-3 text-start">
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle text-warning"></i> User account management</li>
+                                <li><i class="bi bi-check-circle text-warning"></i> Role-based access control</li>
+                                <li><i class="bi bi-check-circle text-warning"></i> System configuration</li>
+                            </ul>
                         </div>
-                        <div class="col-md-4">
-                            <h6><i class="bi bi-graph-up text-primary"></i> Auto-Calculation</h6>
-                            <p class="small">Automatic calculation of claim amounts</p>
-                        </div>
-                        <div class="col-md-4">
-                            <h6><i class="bi bi-file-earmark-text text-info"></i> Document Management</h6>
-                            <p class="small">Upload and manage supporting documents</p>
+                        <div class="col-md-6">
+                            <ul class="list-unstyled">
+                                <li><i class="bi bi-check-circle text-warning"></i> Report generation</li>
+                                <li><i class="bi bi-check-circle text-warning"></i> Payment processing</li>
+                                <li><i class="bi bi-check-circle text-warning"></i> Audit trails</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="row py-5">
+        <div class="col-lg-10 mx-auto">
+            <h2 class="text-center mb-5">Why Choose CMCS?</h2>
+            <div class="row text-center g-4">
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <i class="bi bi-lightning-charge text-primary fs-1"></i>
+                        <h3 class="mt-3">Efficient</h3>
+                        <p class="text-muted">Streamlined claim processing and automated workflows</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <i class="bi bi-shield-check text-success fs-1"></i>
+                        <h3 class="mt-3">Secure</h3>
+                        <p class="text-muted">Role-based access and data protection</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <i class="bi bi-graph-up text-info fs-1"></i>
+                        <h3 class="mt-3">Transparent</h3>
+                        <p class="text-muted">Real-time tracking and status updates</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-item">
+                        <i class="bi bi-clock-history text-warning fs-1"></i>
+                        <h3 class="mt-3">Timely</h3>
+                        <p class="text-muted">Faster approvals and payment processing</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CTA Section -->
+    <div class="row py-5 bg-dark text-white">
+        <div class="col-lg-8 mx-auto text-center">
+            <h2 class="mb-4">Ready to Get Started?</h2>
+            <p class="lead mb-4">
+                Join hundreds of educational professionals using CMCS to simplify their claim management process.
+            </p>
+            @if (User.Identity?.IsAuthenticated != true)
+            {
+                <a href="@Url.Action("Login", "Account")" class="btn btn-primary btn-lg px-5 me-3">
+                    <i class="bi bi-box-arrow-in-right"></i> Sign In Now
+                </a>
+            }
+            <a href="@Url.Action("About", "Home")" class="btn btn-outline-light btn-lg px-5">
+                <i class="bi bi-info-circle"></i> Learn More
+            </a>
         </div>
     </div>
 </div>
+
+<style>
+    .min-vh-75 {
+        min-height: 75vh;
+    }
+
+    .feature-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .card:hover .feature-icon {
+        transform: scale(1.1);
+    }
+
+    .stat-item {
+        padding: 2rem 1rem;
+    }
+
+        .stat-item:hover i {
+            transform: scale(1.2);
+            transition: transform 0.3s ease;
+        }
+</style>

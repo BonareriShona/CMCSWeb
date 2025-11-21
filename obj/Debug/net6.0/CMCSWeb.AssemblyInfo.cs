@@ -11,11 +11,11 @@
 using System;
 using System.Reflection;
 
-[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("None")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("CMCSWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7cd9113b76e772a79f63ae3fc63488e39006e907")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3e42ff89da3170e2db868015f19de07366adbc5b")]
 [assembly: System.Reflection.AssemblyProductAttribute("CMCSWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CMCSWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

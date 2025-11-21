@@ -33,11 +33,11 @@ namespace CMCSWeb.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // Pre-populate with user data
+            // FIXED: Proper conversion from decimal? to decimal
             var claim = new Claim
             {
                 UserId = user.Id,
-                HourlyRate = (double)(user.HourlyRate ?? 0)
+                HourlyRate = user.HourlyRate  // This is now correct
             };
 
             ViewBag.UserName = user.FullName;
@@ -65,8 +65,9 @@ namespace CMCSWeb.Controllers
 
             if (ModelState.IsValid)
             {
-                // Auto-populate user data
+                // Auto-populate user data - FIXED: Use user's hourly rate, not the submitted one
                 claim.UserId = user.Id;
+                claim.HourlyRate = user.HourlyRate ; // Use user's actual rate
                 claim.Status = ClaimStatus.Pending;
                 claim.SubmittedAt = DateTime.Now;
                 claim.ClaimMonth = DateTime.Now.Month;

@@ -3,44 +3,172 @@
     ViewData["Title"] = "Submit Claim";
 }
 
-<h2>Submit Your Claim</h2>
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-plus-circle"></i> Submit New Claim
+                    </h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <i class="bi bi-check-circle-fill"></i> @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
 
-@if (ViewBag.Message != null)
-{
-    <div class="alert alert-success">
-        @ViewBag.Message
+                    <form asp-action="Submit" method="post" enctype="multipart/form-data">
+                        @Html.AntiForgeryToken()
+
+                        <!-- User Information (Read-only) -->
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Lecturer Name</label>
+                                    <input type="text" class="form-control" value="@ViewBag.UserName" readonly />
+                                    <small class="form-text text-muted">Auto-populated from your profile</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Hourly Rate</label>
+                                    <input type="text" class="form-control" value="@ViewBag.HourlyRate" readonly />
+                                    <small class="form-text text-muted">Your fixed hourly rate</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Claim Details -->
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="HoursWorked" class="form-label fw-bold">Hours Worked *</label>
+                                    <input asp-for="HoursWorked" class="form-control" type="number" step="0.1" min="0.1" max="180"
+                                           id="hoursInput" oninput="calculateTotal()" />
+                                    <span asp-validation-for="HoursWorked" class="text-danger"></span>
+                                    <small class="form-text text-muted">Maximum 180 hours per month</small>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Total Amount</label>
+                                    <input type="text" class="form-control fw-bold fs-5 text-success" id="totalAmount" readonly value="R 0.00" />
+                                    <small class="form-text text-muted">Auto-calculated: Hours × Rate</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Documentation (Fixed: Changed from Notes to Documentation) -->
+                        <div class="mb-3">
+                            <label asp-for="Documentation" class="form-label fw-bold">Documentation *</label>
+                            <textarea asp-for="Documentation" class="form-control" rows="3"
+                                      placeholder="Describe the work performed, courses taught, or activities completed..."></textarea>
+                            <span asp-validation-for="Documentation" class="text-danger"></span>
+                            <small class="form-text text-muted">Please provide details of the work you're claiming for</small>
+                        </div>
+
+                        <!-- File Upload -->
+                        <div class="mb-4">
+                            <label class="form-label fw-bold">Upload Supporting Document (Optional)</label>
+                            <input type="file" name="document" class="form-control"
+                                   accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png" />
+                            <small class="form-text text-muted">
+                                Allowed formats: PDF, Word, Excel, Images (Max: 10MB)
+                            </small>
+                        </div>
+
+                        <!-- Hidden fields for auto-population -->
+                        <input type="hidden" asp-for="UserId" />
+                        <input type="hidden" asp-for="HourlyRate" id="hiddenHourlyRate" />
+
+                        <!-- Buttons -->
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Track" class="btn btn-secondary me-md-2">
+                                <i class="bi bi-arrow-left"></i> Back to My Claims
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="bi bi-send-check"></i> Submit Claim
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Important Information -->
+            <div class="card mt-4 border-warning">
+                <div class="card-header bg-warning text-dark">
+                    <h6 class="mb-0"><i class="bi bi-info-circle"></i> Important Information</h6>
+                </div>
+                <div class="card-body">
+                    <ul class="mb-0">
+                        <li>Claims are submitted to your Programme Coordinator for initial verification</li>
+                        <li>After coordinator approval, claims go to Academic Manager for final approval</li>
+                        <li>You can track the status of your claims in the "My Claims" section</li>
+                        <li>Maximum claim period is 180 hours per month</li>
+                        <li>Supporting documents help speed up the approval process</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
-}
-
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <!-- REMOVED LecturerName field since it's now auto-populated -->
-
-    <div class="mb-3">
-        <label asp-for="HoursWorked" class="form-label"></label>
-        <input asp-for="HoursWorked" class="form-control" type="number" />
-        <span asp-validation-for="HoursWorked" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="HourlyRate" class="form-label"></label>
-        <input asp-for="HourlyRate" class="form-control" type="number" step="0.01" />
-        <span asp-validation-for="HourlyRate" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label asp-for="Notes" class="form-label"></label>
-        <textarea asp-for="Notes" class="form-control"></textarea>
-        <span asp-validation-for="Notes" class="text-danger"></span>
-    </div>
-
-    <div class="mb-3">
-        <label class="form-label">Upload Document (optional)</label>
-        <input type="file" name="Document" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Submit Claim</button>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        function calculateTotal() {
+            const hours = parseFloat(document.getElementById('hoursInput').value) || 0;
+            const rate = parseFloat('@ViewBag.HourlyRate') || 0;
+
+            // Validation
+            if (hours > 180) {
+                document.getElementById('totalAmount').value = 'ERROR: Maximum 180 hours allowed';
+                document.getElementById('totalAmount').className = 'form-control fw-bold fs-5 text-danger';
+                return;
+            }
+
+            if (hours <= 0) {
+                document.getElementById('totalAmount').value = 'R 0.00';
+                document.getElementById('totalAmount').className = 'form-control fw-bold fs-5 text-success';
+                return;
+            }
+
+            const total = hours * rate;
+            document.getElementById('totalAmount').value = 'R ' + total.toFixed(2);
+            document.getElementById('totalAmount').className = 'form-control fw-bold fs-5 text-success';
+
+            // Update hidden hourly rate field
+            document.getElementById('hiddenHourlyRate').value = rate;
+        }
+
+        // Initialize calculation on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateTotal();
+
+            // Set hidden hourly rate field with the user's rate
+            const hourlyRate = parseFloat('@ViewBag.HourlyRate') || 0;
+            document.getElementById('hiddenHourlyRate').value = hourlyRate;
+        });
+
+        // Real-time validation
+        document.getElementById('hoursInput').addEventListener('blur', function() {
+            const hours = parseFloat(this.value) || 0;
+            if (hours > 180) {
+                this.setCustomValidity('Hours worked cannot exceed 180 hours per month.');
+            } else if (hours <= 0) {
+                this.setCustomValidity('Hours worked must be greater than 0.');
+            } else {
+                this.setCustomValidity('');
+            }
+        });
+
+        // Clear validation on input
+        document.getElementById('hoursInput').addEventListener('input', function() {
+            this.setCustomValidity('');
+        });
+    </script>
 }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\lab_services_student\\Source\\Repos\\PROG6212POE1\\PROG6212POE1\\CMCSWeb.csproj": {}
+    "C:\\Users\\lab_services_student\\Desktop\\CMCSWebProject\\CMCSWeb\\CMCSWeb.csproj": {}
   },
   "projects": {
-    "C:\\Users\\lab_services_student\\Source\\Repos\\PROG6212POE1\\PROG6212POE1\\CMCSWeb.csproj": {
+    "C:\\Users\\lab_services_student\\Desktop\\CMCSWebProject\\CMCSWeb\\CMCSWeb.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\lab_services_student\\Source\\Repos\\PROG6212POE1\\PROG6212POE1\\CMCSWeb.csproj",
+        "projectUniqueName": "C:\\Users\\lab_services_student\\Desktop\\CMCSWebProject\\CMCSWeb\\CMCSWeb.csproj",
         "projectName": "CMCSWeb",
-        "projectPath": "C:\\Users\\lab_services_student\\Source\\Repos\\PROG6212POE1\\PROG6212POE1\\CMCSWeb.csproj",
+        "projectPath": "C:\\Users\\lab_services_student\\Desktop\\CMCSWebProject\\CMCSWeb\\CMCSWeb.csproj",
         "packagesPath": "C:\\Users\\lab_services_student\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\lab_services_student\\Source\\Repos\\PROG6212POE1\\PROG6212POE1\\obj\\",
+        "outputPath": "C:\\Users\\lab_services_student\\Desktop\\CMCSWebProject\\CMCSWeb\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -22,15 +22,15 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "net6.0"
+          "net8.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net6.0": {
-            "targetAlias": "net6.0",
+          "net8.0": {
+            "targetAlias": "net8.0",
             "projectReferences": {}
           }
         },
@@ -47,36 +47,36 @@
         "SdkAnalysisLevel": "9.0.300"
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "net8.0": {
+          "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
-              "version": "[6.0.25, )"
+              "version": "[8.0.11, )"
             },
             "Microsoft.AspNetCore.Identity.UI": {
               "target": "Package",
-              "version": "[6.0.25, )"
+              "version": "[8.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.25, )"
+              "version": "[8.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.SqlServer": {
               "target": "Package",
-              "version": "[6.0.25, )"
+              "version": "[8.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Tools": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[6.0.25, )"
+              "version": "[8.0.11, )"
             },
             "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
               "target": "Package",
-              "version": "[6.0.16, )"
+              "version": "[8.0.7, )"
             }
           },
           "imports": [
@@ -98,7 +98,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -25,9 +25,16 @@ namespace CMCSWeb.Controllers
         }
 
         // HR Dashboard
-        public IActionResult Dashboard()
+        public async Task<IActionResult> Dashboard()
         {
-            return View();
+            var stats = new
+            {
+                TotalUsers = await _userManager.Users.CountAsync(),
+                TotalClaims = await _context.Claims.CountAsync(),
+                PendingClaims = await _context.Claims.CountAsync(c => c.Status == ClaimStatus.Pending),
+                ApprovedClaims = await _context.Claims.CountAsync(c => c.Status == ClaimStatus.Approved)
+            };
+            return View(stats);
         }
 
         // List all users
@@ -61,13 +68,12 @@ namespace CMCSWeb.Controllers
             {
                 var user = new ApplicationUser
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    FullName = model.FullName,
-                    PhoneNumber = model.Phone,
+                    UserName = model.Email ?? string.Empty,
+                    Email = model.Email ?? string.Empty,
+                    FullName = model.FullName ?? string.Empty,
+                    PhoneNumber = model.PhoneNumber,
                     Department = model.Department,
                     HourlyRate = model.HourlyRate,
-                    UserRole = role,
                     CreatedAt = DateTime.Now
                 };
 
@@ -112,6 +118,10 @@ namespace CMCSWeb.Controllers
                 return NotFound();
             }
 
+            // Get user's current role
+            var roles = await _userManager.GetRolesAsync(user);
+            user.UserRole = roles.FirstOrDefault() ?? "Lecturer";
+
             return View(user);
         }
 
@@ -119,7 +129,7 @@ namespace CMCSWeb.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUser(string id, ApplicationUser model, string role)
         {
-            if (id != model.Id)
+            if (string.IsNullOrEmpty(id) || id != model.Id)
             {
                 return NotFound();
             }
@@ -132,13 +142,12 @@ namespace CMCSWeb.Controllers
                     return NotFound();
                 }
 
-                user.FullName = model.FullName;
-                user.Email = model.Email;
-                user.UserName = model.Email;
-                user.PhoneNumber = model.Phone;
+                user.FullName = model.FullName ?? string.Empty;
+                user.Email = model.Email ?? string.Empty;
+                user.UserName = model.Email ?? string.Empty;
+                user.PhoneNumber = model.PhoneNumber;
                 user.Department = model.Department;
                 user.HourlyRate = model.HourlyRate;
-                user.UserRole = role;
 
                 var result = await _userManager.UpdateAsync(user);
 
@@ -162,6 +171,71 @@ namespace CMCSWeb.Controllers
             return View(model);
         }
 
+        // Delete user
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "Invalid user ID.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = $"User {user.FullName} deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = $"Error deleting user: {string.Join(", ", result.Errors.Select(e => e.Description))}";
+            }
+
+            return RedirectToAction(nameof(Users));
+        }
+
+        // Reset password
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(string id, string newPassword)
+        {
+            if (string.IsNullOrEmpty(id))
+            {
+                TempData["ErrorMessage"] = "Invalid user ID.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                TempData["ErrorMessage"] = "User not found.";
+                return RedirectToAction(nameof(Users));
+            }
+
+            // Generate a reset token and set new password
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+
+            if (result.Succeeded)
+            {
+                TempData["SuccessMessage"] = $"Password for {user.FullName} reset successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = $"Error resetting password: {string.Join(", ", result.Errors.Select(e => e.Description))}";
+            }
+
+            return RedirectToAction(nameof(Users));
+        }
+
         // Generate Reports
         [HttpGet]
         public async Task<IActionResult> Reports()
@@ -181,7 +255,7 @@ namespace CMCSWeb.Controllers
             var claims = await _context.Claims
                 .Include(c => c.User)
                 .Where(c => c.ClaimMonth == month && c.ClaimYear == year && c.Status == ClaimStatus.Approved)
-                .OrderBy(c => c.User.FullName)
+                .OrderBy(c => c.User != null ? c.User.FullName : string.Empty)
                 .ToListAsync();
 
             ViewBag.Month = month;

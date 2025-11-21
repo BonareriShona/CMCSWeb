@@ -2,51 +2,120 @@
     ViewData["Title"] = "HR Dashboard";
 }
 
-<div class="container mt-4">
-    <h2 class="text-primary mb-4">HR Dashboard</h2>
+<div class="container-fluid">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="display-6"><i class="bi bi-speedometer2 text-primary"></i> HR Dashboard</h1>
+    </div>
 
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card bg-primary text-white">
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow h-100 py-2">
                 <div class="card-body">
-                    <h5 class="card-title">User Management</h5>
-                    <p class="card-text">Create and manage user accounts for lecturers, coordinators, and managers.</p>
-                    <a href="@Url.Action("Users")" class="btn btn-light">Manage Users</a>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Total Users
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalUsers</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-people fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card bg-success text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
-                    <h5 class="card-title">Reports</h5>
-                    <p class="card-text">Generate monthly reports and invoices for approved claims.</p>
-                    <a href="@Url.Action("Reports")" class="btn btn-light">View Reports</a>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                Total Claims
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.TotalClaims</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-file-earmark-text fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-4 mb-4">
-            <div class="card bg-info text-white">
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
-                    <h5 class="card-title">System Overview</h5>
-                    <p class="card-text">View system statistics and performance metrics.</p>
-                    <a href="@Url.Action("Users")" class="btn btn-light">View Stats</a>
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                Pending Claims
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.PendingClaims</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-clock-history fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                Approved Claims
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.ApprovedClaims</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="bi bi-check-circle fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row mt-4">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    <h5>Quick Actions</h5>
+    <!-- Quick Actions -->
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h6 class="m-0 font-weight-bold"><i class="bi bi-person-plus"></i> User Management</h6>
                 </div>
                 <div class="card-body">
-                    <a href="@Url.Action("CreateUser")" class="btn btn-primary me-2">Add New User</a>
-                    <a href="@Url.Action("Users")" class="btn btn-secondary me-2">View All Users</a>
-                    <a href="@Url.Action("Reports")" class="btn btn-success">Generate Reports</a>
+                    <p>Create and manage user accounts for all roles in the system.</p>
+                    <a asp-action="Users" class="btn btn-primary btn-block">Manage Users</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-success text-white">
+                    <h6 class="m-0 font-weight-bold"><i class="bi bi-graph-up"></i> Reports</h6>
+                </div>
+                <div class="card-body">
+                    <p>Generate reports and invoices for approved claims and payments.</p>
+                    <a asp-action="Reports" class="btn btn-success btn-block">View Reports</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow">
+                <div class="card-header bg-info text-white">
+                    <h6 class="m-0 font-weight-bold"><i class="bi bi-eye"></i> System Overview</h6>
+                </div>
+                <div class="card-body">
+                    <p>Monitor claim status and system activity across all departments.</p>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-info btn-block">System Info</a>
                 </div>
             </div>
         </div>

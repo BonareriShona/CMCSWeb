@@ -9,125 +9,125 @@ build_property.EnforceExtendedAnalyzerRules =
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = CMCSWeb
 build_property.RootNamespace = CMCSWeb
-build_property.ProjectDir = C:\Users\lab_services_student\Source\Repos\PROG6212POE1\PROG6212POE1\
+build_property.ProjectDir = C:\Users\lab_services_student\Desktop\CMCSWebProject\CMCSWeb\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 6.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\lab_services_student\Source\Repos\PROG6212POE1\PROG6212POE1
+build_property.MSBuildProjectDirectory = C:\Users\lab_services_student\Desktop\CMCSWebProject\CMCSWeb
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 6.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Account/AccessDenied.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Account/AccessDenied.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxBY2Nlc3NEZW5pZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Account/Login.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Claim/ClaimStatus.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Claim/ClaimStatus.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1cQ2xhaW1TdGF0dXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Claim/Create.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Claim/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1cQ3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Claim/Index.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Claim/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2xhaW1cSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Coordinator/AllClaims.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Coordinator/AllClaims.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcQWxsQ2xhaW1zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Coordinator/Details.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Coordinator/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Coordinator/Index.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Coordinator/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Coordinator/Manage.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Coordinator/Manage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcTWFuYWdlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Coordinator/Verified.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Coordinator/Verified.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ29vcmRpbmF0b3JcVmVyaWZpZWQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Home/Index.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Home/Privacy.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/CreateUser.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/CreateUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcQ3JlYXRlVXNlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/Dashboard.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/EditUser.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/EditUser.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcRWRpdFVzZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/MonthlyReport.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/MonthlyReport.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcTW9udGhseVJlcG9ydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/Reports.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/Reports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcUmVwb3J0cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/HR/Users.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/HR/Users.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcVXNlcnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Lecturer/Index.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Lecturer/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Lecturer/Submit.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Lecturer/Submit.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcU3VibWl0LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Lecturer/Track.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Lecturer/Track.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVjdHVyZXJcVHJhY2suY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Manager/Approved.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Manager/Approved.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxBcHByb3ZlZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Manager/Manage.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Manager/Manage.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWFuYWdlclxNYW5hZ2UuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Shared/Error.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/_ViewImports.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/_ViewStart.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/lab_services_student/Source/Repos/PROG6212POE1/PROG6212POE1/Views/Shared/_Layout.cshtml]
+[C:/Users/lab_services_student/Desktop/CMCSWebProject/CMCSWeb/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-ex97sd8zx5

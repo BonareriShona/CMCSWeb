@@ -25,7 +25,7 @@ namespace CMCSWeb.Controllers
         {
             // Set session for manager
             HttpContext.Session.SetString("UserRole", "Manager");
-            HttpContext.Session.SetString("UserName", User.Identity.Name);
+            HttpContext.Session.SetString("UserName", User.Identity?.Name ?? "Manager");
 
             var verifiedClaims = await _context.Claims
                 .Include(c => c.User)
@@ -41,7 +41,8 @@ namespace CMCSWeb.Controllers
         public async Task<IActionResult> Approve(int id)
         {
             // Check session
-            if (HttpContext.Session.GetString("UserRole") != "Manager")
+            var userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole != "Manager")
             {
                 TempData["ErrorMessage"] = "Access denied. Please log in as Manager.";
                 return RedirectToAction("Login", "Account");
@@ -55,7 +56,7 @@ namespace CMCSWeb.Controllers
             {
                 claim.Status = ClaimStatus.Approved;
                 claim.ApprovedAt = DateTime.Now;
-                claim.ApprovedBy = User.Identity.Name;
+                claim.ApprovedBy = User.Identity?.Name ?? "Manager";
                 await _context.SaveChangesAsync();
                 TempData["SuccessMessage"] = $"Claim #{claim.Id} approved successfully.";
             }
@@ -72,7 +73,8 @@ namespace CMCSWeb.Controllers
         public async Task<IActionResult> Reject(int id)
         {
             // Check session
-            if (HttpContext.Session.GetString("UserRole") != "Manager")
+            var userRole = HttpContext.Session.GetString("UserRole");
+            if (userRole != "Manager")
             {
                 TempData["ErrorMessage"] = "Access denied. Please log in as Manager.";
                 return RedirectToAction("Login", "Account");
@@ -107,6 +109,23 @@ namespace CMCSWeb.Controllers
                 .ToListAsync();
 
             return View(approvedClaims);
+        }
+
+        // Claim Details for Manager
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var claim = await _context.Claims
+                .Include(c => c.User)
+                .FirstOrDefaultAsync(c => c.Id == id);
+
+            if (claim == null)
+            {
+                TempData["ErrorMessage"] = "Claim not found.";
+                return RedirectToAction(nameof(Manage));
+            }
+
+            return View(claim);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace CMCSWeb.Controllers
         public IActionResult Index()
         {
             // Redirect authenticated users to their dashboard
-            if (User.Identity.IsAuthenticated)
+            if (User.Identity?.IsAuthenticated == true)
             {
                 if (User.IsInRole("HR"))
                     return RedirectToAction("Dashboard", "HR");

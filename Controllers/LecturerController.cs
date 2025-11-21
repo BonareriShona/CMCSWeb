@@ -26,7 +26,6 @@ namespace CMCSWeb.Controllers
             _userManager = userManager;
         }
 
-        // Display the claim submission form with auto-populated data
         [HttpGet]
         public async Task<IActionResult> Submit()
         {
@@ -39,16 +38,15 @@ namespace CMCSWeb.Controllers
             var model = new Claim
             {
                 UserId = user.Id,
-                HourlyRate = (double)(user.HourlyRate ?? 0)
+                HourlyRate = user.HourlyRate 
             };
 
             ViewBag.UserName = user.FullName;
-            ViewBag.HourlyRate = user.HourlyRate;
+            ViewBag.HourlyRate = user.HourlyRate.ToString("F2");
 
             return View(model);
         }
 
-        // Handle claim submission with auto-calculation and validation
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Submit(Claim claim, IFormFile? document)
@@ -59,68 +57,78 @@ namespace CMCSWeb.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // Validate hours worked (max 180 hours)
+            // Server-side validation
             if (claim.HoursWorked > 180)
             {
                 ModelState.AddModelError("HoursWorked", "Hours worked cannot exceed 180 hours per month.");
             }
 
+            if (claim.HoursWorked <= 0)
+            {
+                ModelState.AddModelError("HoursWorked", "Hours worked must be greater than 0.");
+            }
+
             if (ModelState.IsValid)
             {
-                // Auto-populate user data
-                claim.UserId = user.Id;
-                claim.HourlyRate = (double)(user.HourlyRate ?? 0);
-
-                // Handle file upload - ACCEPT ANY DOCUMENT TYPE
-                if (document != null && document.Length > 0)
+                try
                 {
-                    // REMOVED file type restrictions - accept any file type
-                    // Only check file size for security
-                    const long maxFileSize = 10 * 1024 * 1024; // Increased to 10 MB
+                    // Auto-populate user data
+                    claim.UserId = user.Id;
+                    claim.HourlyRate = user.HourlyRate ;
 
-                    if (document.Length > maxFileSize)
+                    // Calculate total amount - using the computed property
+                    // TotalAmount is computed automatically in the getter
+
+                    // Handle file upload
+                    if (document != null && document.Length > 0)
                     {
-                        ModelState.AddModelError("DocumentPath", "File size cannot exceed 10 MB.");
-                        return View(claim);
+                        const long maxFileSize = 10 * 1024 * 1024;
+                        if (document.Length > maxFileSize)
+                        {
+                            ModelState.AddModelError("DocumentPath", "File size cannot exceed 10 MB.");
+                            return View(claim);
+                        }
+
+                        var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
+                        if (!Directory.Exists(uploadsFolder))
+                            Directory.CreateDirectory(uploadsFolder);
+
+                        var originalFileName = Path.GetFileName(document.FileName);
+                        var uniqueFileName = $"{Path.GetFileNameWithoutExtension(originalFileName)}_{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+                        var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                        using (var stream = new FileStream(filePath, FileMode.Create))
+                        {
+                            await document.CopyToAsync(stream);
+                        }
+
+                        claim.DocumentPath = uniqueFileName;
                     }
 
-                    var uploadsFolder = Path.Combine(_environment.WebRootPath, "uploads");
-                    if (!Directory.Exists(uploadsFolder))
-                        Directory.CreateDirectory(uploadsFolder);
+                    // Set claim properties
+                    claim.Status = ClaimStatus.Pending;
+                    claim.SubmittedAt = DateTime.Now;
+                    claim.ClaimMonth = DateTime.Now.Month;
+                    claim.ClaimYear = DateTime.Now.Year;
 
-                    // Keep original filename but make it unique
-                    var originalFileName = Path.GetFileName(document.FileName);
-                    var uniqueFileName = $"{Path.GetFileNameWithoutExtension(originalFileName)}_{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
-                    var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                    _context.Claims.Add(claim);
+                    await _context.SaveChangesAsync();
 
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await document.CopyToAsync(stream);
-                    }
-
-                    claim.DocumentPath = uniqueFileName;
+                    TempData["SuccessMessage"] = "Your claim has been submitted successfully!";
+                    return RedirectToAction(nameof(Track));
                 }
-
-                // Set claim properties
-                claim.Status = ClaimStatus.Pending;
-                claim.SubmittedAt = DateTime.Now;
-                claim.ClaimMonth = DateTime.Now.Month;
-                claim.ClaimYear = DateTime.Now.Year;
-
-                _context.Claims.Add(claim);
-                await _context.SaveChangesAsync();
-
-                TempData["SuccessMessage"] = "Your claim has been submitted successfully!";
-                return RedirectToAction(nameof(Track));
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError(string.Empty, $"Error submitting claim: {ex.Message}");
+                }
             }
 
             // If validation fails, reload with user data
             ViewBag.UserName = user.FullName;
-            ViewBag.HourlyRate = user.HourlyRate;
+            ViewBag.HourlyRate = user.HourlyRate.ToString("F2");
             return View(claim);
         }
 
-        // Lecturer can view and track all their claims
         [HttpGet]
         public async Task<IActionResult> Track()
         {
@@ -131,7 +139,7 @@ namespace CMCSWeb.Controllers
             }
 
             var claims = await _context.Claims
-                .Include(c => c.User) // Include user data for display
+                .Include(c => c.User)
                 .Where(c => c.UserId == user.Id)
                 .OrderByDescending(c => c.SubmittedAt)
                 .ToListAsync();
@@ -139,18 +147,46 @@ namespace CMCSWeb.Controllers
             return View(claims);
         }
 
-        // Auto-calculation endpoint for AJAX
+        // API endpoint for auto-calculation (for JavaScript)
         [HttpPost]
-        public IActionResult CalculateTotal(double hoursWorked, double hourlyRate)
+        public IActionResult CalculateTotal(decimal hoursWorked, decimal hourlyRate)
         {
-            if (hoursWorked > 180)
+            try
             {
-                return Json(new { error = "Hours worked cannot exceed 180 hours per month." });
-            }
+                if (hoursWorked > 180)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        error = "Hours worked cannot exceed 180 hours per month."
+                    });
+                }
 
-            var total = hoursWorked * hourlyRate;
-            return Json(new { total = total.ToString("C") });
+                if (hoursWorked <= 0)
+                {
+                    return Json(new
+                    {
+                        success = false,
+                        error = "Hours worked must be greater than 0."
+                    });
+                }
+
+                var total = hoursWorked * hourlyRate;
+                return Json(new
+                {
+                    success = true,
+                    total = total.ToString("C"),
+                    totalRaw = total
+                });
+            }
+            catch (Exception ex)
+            {
+                return Json(new
+                {
+                    success = false,
+                    error = $"Calculation error: {ex.Message}"
+                });
+            }
         }
     }
-
 }

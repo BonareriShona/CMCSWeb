@@ -23,7 +23,7 @@ namespace CMCSWeb.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public IActionResult Login(string returnUrl = null)
+        public IActionResult Login(string? returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -32,34 +32,43 @@ namespace CMCSWeb.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginModel model, string returnUrl = null)
-        {
+        public async Task<IActionResult> Login(LoginModel model, string? returnUrl = null)
+        { 
             ViewData["ReturnUrl"] = returnUrl;
+
+            ModelState.Remove("returnUrl");
+
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe?? true, lockoutOnFailure: false);
+
                 if (result.Succeeded)
                 {
                     var user = await _userManager.FindByEmailAsync(model.Email);
-                    var roles = await _userManager.GetRolesAsync(user);
 
-                    // Set session based on role
-                    HttpContext.Session.SetString("UserRole", roles.FirstOrDefault() ?? "Lecturer");
-                    HttpContext.Session.SetString("UserName", user.FullName);
-
-                    if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                    if (user != null)
                     {
-                        return Redirect(returnUrl);
+                        var roles = await _userManager.GetRolesAsync(user);
+                        var userRole = roles.FirstOrDefault() ?? "Lecturer";
+
+                        // Set session based on role
+                        HttpContext.Session.SetString("UserRole", userRole);
+                        HttpContext.Session.SetString("UserName", user.FullName ?? "User");
+
+                        if (!string.IsNullOrEmpty(returnUrl) && Url.IsLocalUrl(returnUrl))
+                        {
+                            return Redirect(returnUrl);
+                        }
+
+                        // Redirect based on role
+                        return userRole switch
+                        {
+                            "HR" => RedirectToAction("Dashboard", "HR"),
+                            "Coordinator" => RedirectToAction("Manage", "Coordinator"),
+                            "Manager" => RedirectToAction("Manage", "Manager"),
+                            _ => RedirectToAction("Track", "Lecturer")
+                        };
                     }
-
-                    // Redirect based on role
-                    return roles.FirstOrDefault() switch
-                    {
-                        "HR" => RedirectToAction("Dashboard", "HR"),
-                        "Coordinator" => RedirectToAction("Manage", "Coordinator"),
-                        "Manager" => RedirectToAction("Manage", "Manager"),
-                        _ => RedirectToAction("Track", "Lecturer")
-                    };
                 }
                 else
                 {
@@ -67,6 +76,7 @@ namespace CMCSWeb.Controllers
                     return View(model);
                 }
             }
+
             return View(model);
         }
 
@@ -89,15 +99,15 @@ namespace CMCSWeb.Controllers
 
     public class LoginModel
     {
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Email is required")]
+        //[EmailAddress(ErrorMessage = "Invalid email address")]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         [DataType(DataType.Password)]
         public string Password { get; set; } = string.Empty;
 
         [Display(Name = "Remember me?")]
-        public bool RememberMe { get; set; }
+        public bool? RememberMe { get; set; }
     }
 }
